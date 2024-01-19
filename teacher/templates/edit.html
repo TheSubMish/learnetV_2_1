@@ -1,0 +1,69 @@
+{% extends 'teachbase.html' %}
+{% load static %}
+{% block title %}
+  Contact - Learnet
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="edit-courses">
+      <div class="edit-course">
+        <div class="edit-course-img">
+          <img src="{% static '/img/chemistry.png' %}" alt="Computer course" />
+        </div>
+        <div class="edit-course-body">
+          <div>
+            <h1>{{course.courseTitle}}</h1>
+            {% if course.courseDescrip|length > 100 %}
+              <p class="course-descrip">{{ course.courseDescrip|slice:':100' }}...</p>
+            {% else %}
+              <p class="course-descrip">{{course.courseDescrip}}</p>
+            {% endif %}
+          </div>
+        </div>
+        <div class="edit-course-enroll">
+          <a href="{% url "updatecourse" course.slug %}" class="enroll">Edit Course</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="edit-chapters">
+      <table>
+        <tr>
+          <th>S.N</th>
+          <th>Chapter Name</th>
+          <th>Edit Chapter</th>
+        </tr>
+        {% if chapters %}
+            {% for chapter in chapters %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ chapter.chapterName }}</td>
+                    <td><a href="{% url "updatechapter" course.slug chapter.pk %}">Edit</a></td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+      </table>
+    </div>
+
+    <div class="edit-chapters">
+      <table>
+        <tr>
+          <th>S.N</th>
+          <th>Test Name</th>
+          <th>Question</th>
+          <th>Edit Test</th>
+        </tr>
+        {% if tests %}
+            {% for test in tests %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{test.title}}</td>
+                    <td>{{test.question}}</td>
+                    <td><a href="{% url "updatetest" course.slug test.pk %}">Edit</a></td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+      </table>
+    </div>
+  </div>
+{% endblock %}

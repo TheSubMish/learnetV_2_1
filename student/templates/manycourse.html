@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  All Courses - Learnet
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="many-course-container">
+      <div class="many-course-contains">
+        {% if courses %}
+          {% for course in courses %}
+            <div class="many-course">
+              <div class="many-course-img">
+                <img src="{{ course.courseImage.url }}" alt="{{ course.courseTitle }}" />
+              </div>
+              <div class="many-course-body">
+                <div>
+                  <h1>{{ course.courseTitle }}</h1>
+                  {% if course.courseDescrip|length > 100 %}
+                    <p class="course-descrip">{{ course.courseDescrip|slice:':100' }}...</p>
+                  {% else %}
+                    <p class="course-descrip">{{ course.courseDescrip }}</p>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="many-course-enroll">
+                <a href="{% url "enroll" course.slug %}" class="enroll">Enroll</a>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+        <div class="pagination">
+          <span class="step-links">
+            {% if page_obj.has_previous %}
+              <a href="?page=1">&laquo; 1 -</a>
+              <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+            {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}">next -</a>
+              <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
